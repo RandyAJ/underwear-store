@@ -8,6 +8,11 @@
 
 # Maven
 target/
+**/target/
+
+.idea/
+**/.idea/
+*.iml
 
 # macOS
 .DS_Store
