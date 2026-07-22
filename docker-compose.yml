@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: underwear-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: QS1YR8URQ6
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata_shared:/var/lib/postgresql/data
+      - ./init-multiple-databases.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  pgdata_shared:

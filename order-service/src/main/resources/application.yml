@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/order_db
+    username: postgres
+    password: QS1YR8URQ6
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
