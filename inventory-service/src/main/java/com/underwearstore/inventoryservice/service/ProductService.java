@@ -1,9 +1,11 @@
 package com.underwearstore.inventoryservice.service;
 
+import com.underwearstore.inventoryservice.dto.ProductRequest;
+import com.underwearstore.inventoryservice.dto.ProductResponse;
 import com.underwearstore.inventoryservice.entity.Product;
-import org.springframework.stereotype.Service;
 import com.underwearstore.inventoryservice.repository.ProductRepository;
 
+import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
@@ -40,5 +42,15 @@ public class ProductService {
         } catch (RuntimeException e) {
             throw new RuntimeException(String.format("Exception during deletion resource with ID %d ~ ", id) + e);
         }
+    }
+
+    public List<ProductResponse> checkAvailability(ProductRequest productRequest){
+        List<ProductResponse> listProduct = productRepository.findAllByName(productRequest.name());
+
+        if(listProduct.isEmpty() || listProduct.getFirst().getQuantity() <= 0){
+            throw new RuntimeException("Product is out of stock");
+        }
+
+        return listProduct;
     }
 }
