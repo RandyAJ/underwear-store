@@ -7,14 +7,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 import jakarta.validation.constraints.NotNull;
-//import jakarta.validation.constraints.AssertTrue;
 
 import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users")
+@Table(name = "products")
 @NoArgsConstructor
 public class Product {
     @Id
