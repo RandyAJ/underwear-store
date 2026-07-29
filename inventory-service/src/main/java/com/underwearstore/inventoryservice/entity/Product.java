@@ -1,37 +1,30 @@
 package com.underwearstore.inventoryservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
-import lombok.Setter;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
 @NoArgsConstructor
+@Setter
+@Getter
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE) // ID генерируется до Insert в БД. Можно использовать пакетную вставку (batching). Можно прикрутить контроль над генерацией ID
     private Long id;
 
     @NotNull
-    @Setter
-    @Getter
     private String name;
 
     @NotNull
-    @Setter
-    @Getter
-    private String price;
+    private BigDecimal price;
 
     @NotNull
-    @Setter
-    @Getter
-    private String photo;
+    private Integer quantity;
+
+    @NotNull
+    private Integer sale; // в процентах от 0 до 100. Позже добавить допустимый диапзаон
+
 }
