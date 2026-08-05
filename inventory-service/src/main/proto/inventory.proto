@@ -11,7 +11,7 @@ message ProductRequest {
 // ответ
 message ProductResponse {
     bool available = 1; // есть ли Product с таким ID в БД
-    int32 quantity = 2; // его количестводля
+    int32 quantity = 2; // его количество
 }
 
 // gRPC-сервис, который предоставляет наш микросервис

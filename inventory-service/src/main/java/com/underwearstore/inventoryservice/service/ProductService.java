@@ -43,15 +43,15 @@ public class ProductService {
         }
     }
 
-    public Boolean checkAvailability(Long id){
+    public Product checkAvailability(Long id){
         Optional<Product> product = productRepository.findById(id);
 
-        if(product.isEmpty() || product.get().getQuantity() <= 0){
-            System.out.printf("Product with ID %s is out of stock ~ %n", id);
+        if(product.isEmpty()){
+            System.out.printf("Product with ID %s not found ~ %n", id);
 
-            return false;
+            throw new RuntimeException(String.format("Product with ID %s not found ~ %n", id));
         }
 
-        return true;
+        return product.get();
     }
 }

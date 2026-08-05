@@ -1,5 +1,6 @@
 package com.underwearstore.inventoryservice.grpc;
 
+import com.underwearstore.inventoryservice.entity.Product;
 import com.underwearstore.inventoryservice.service.ProductService;
 import io.grpc.stub.StreamObserver;
 import org.springframework.grpc.server.service.GrpcService;
@@ -14,13 +15,24 @@ public class InventoryServiceImpl extends InventoryServiceGrpc.InventoryServiceI
 
     @Override
     public void checkAvailability(ProductRequest request, StreamObserver<ProductResponse> responseObserver) {
-        Boolean available = productService.checkAvailability(request.getId());
+        try {
+            Product product = productService.checkAvailability(request.getId());
 
-        ProductResponse response = ProductResponse.newBuilder()
-            .setAvailable(available)
-            .build();
+            ProductResponse response = ProductResponse.newBuilder()
+                    .setAvailable(product.getQuantity() > 0)
+                    .setQuantity(product.getQuantity())
+                    .build();
 
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+
+        } catch (RuntimeException e){
+            responseObserver.onError(
+                    io.grpc.Status.NOT_FOUND
+                        .withDescription(e.getMessage())
+                        .asRuntimeException()
+
+            );
+        }
     }
 }

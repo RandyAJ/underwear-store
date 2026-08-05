@@ -25,6 +25,6 @@ public class Product {
     private Integer quantity;
 
     @NotNull
-    private Integer sale; // в процентах от 0 до 100. Позже добавить допустимый диапзаон
+    private Integer sale; // В процентах от 0 до 100. Позже добавить допустимый диапазон
 
 }
