@@ -21,6 +21,11 @@ public class InventoryServiceImpl extends InventoryServiceGrpc.InventoryServiceI
             ProductResponse response = ProductResponse.newBuilder()
                     .setAvailable(product.getQuantity() > 0)
                     .setQuantity(product.getQuantity())
+
+                    .setId(product.getId())
+                    .setName(product.getName())
+                    .setPrice(String.valueOf(product.getPrice()))
+                    .setSale(product.getSale())
                     .build();
 
             responseObserver.onNext(response);
