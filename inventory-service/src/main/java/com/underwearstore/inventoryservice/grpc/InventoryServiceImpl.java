@@ -24,7 +24,7 @@ public class InventoryServiceImpl extends InventoryServiceGrpc.InventoryServiceI
 
                     .setId(product.getId())
                     .setName(product.getName())
-                    .setPrice(String.valueOf(product.getPrice()))
+                    .setPrice(product.getPrice().toString())
                     .setSale(product.getSale())
                     .build();
 
