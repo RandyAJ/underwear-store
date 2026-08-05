@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "com.underwearstore.inventoryservice.grpc";
+option java_multiple_files = true;
+
+// запрос
+message ProductRequest {
+    int64 id = 1; // ID Product для проверки в БД
+}
+
+// ответ
+message ProductResponse {
+    bool available = 1; // есть ли Product с таким ID в БД
+    int32 quantity = 2; // его количестводля
+}
+
+// gRPC-сервис, который предоставляет наш микросервис
+service InventoryService {
+    // метод проверки наличия товара
+    rpc CheckAvailability(ProductRequest) returns (ProductResponse);
+}
