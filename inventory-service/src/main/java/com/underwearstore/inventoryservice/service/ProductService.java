@@ -1,12 +1,11 @@
 package com.underwearstore.inventoryservice.service;
 
-import com.underwearstore.inventoryservice.dto.ProductRequest;
-import com.underwearstore.inventoryservice.dto.ProductResponse;
 import com.underwearstore.inventoryservice.entity.Product;
 import com.underwearstore.inventoryservice.repository.ProductRepository;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -44,13 +43,15 @@ public class ProductService {
         }
     }
 
-    public List<ProductResponse> checkAvailability(ProductRequest productRequest){
-        List<ProductResponse> listProduct = productRepository.findAllByName(productRequest.name());
+    public Boolean checkAvailability(Long id){
+        Optional<Product> product = productRepository.findById(id);
 
-        if(listProduct.isEmpty() || listProduct.getFirst().getQuantity() <= 0){
-            throw new RuntimeException("Product is out of stock");
+        if(product.isEmpty() || product.get().getQuantity() <= 0){
+            System.out.printf("Product with ID %s is out of stock ~ %n", id);
+
+            return false;
         }
 
-        return listProduct;
+        return true;
     }
 }
