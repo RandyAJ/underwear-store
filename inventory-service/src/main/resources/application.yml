@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/inventory_db
+    url: jdbc:postgresql://localhost:5433/order_db
     username: postgres
     password: QS1YR8URQ6
 
@@ -8,3 +8,12 @@ spring:
     hibernate:
       ddl-auto: update # validate
     show-sql: true
+
+  grpc:
+    client:
+      channels:
+        inventory:
+          address: "localhost:9090"
+
+  server:
+    port: 8081
