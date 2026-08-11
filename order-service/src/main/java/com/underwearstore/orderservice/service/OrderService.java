@@ -17,7 +17,6 @@ public class OrderService {
 
     public ProductResponseDto checkAvailability(Long id){
         ProductRequest request = ProductRequest.newBuilder().setId(id).build();
-        System.out.println("ORDER SERVICE: id = " + id);
         ProductResponse response = inventoryGrpcClient.checkAvailability(request);
 
         return new ProductResponseDto(

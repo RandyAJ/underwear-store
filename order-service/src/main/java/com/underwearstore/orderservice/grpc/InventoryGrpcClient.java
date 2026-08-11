@@ -15,7 +15,6 @@ public class InventoryGrpcClient {
     }
 
     public ProductResponse checkAvailability(ProductRequest request){
-        System.out.println("ORDER InventoryGrpcClient: REQUEST = '" + request + "'");
         return stub.checkAvailability(request);
     }
 

@@ -13,17 +13,23 @@ public class InventoryServiceImpl extends InventoryServiceGrpc.InventoryServiceI
         this.productService = productService;
     }
 
+//    для теста grpc-сервера
+//    grpcurl -plaintext \
+//            -emit-defaults \
+//            -d '{"id":103}' \
+//    localhost:9090 \
+//    InventoryService/CheckAvailability
+
     @Override
     public void checkAvailability(ProductRequest request, StreamObserver<ProductResponse> responseObserver) {
         try {
             Product product = productService.checkAvailability(request.getId());
 
             ProductResponse response = ProductResponse.newBuilder()
-                    .setAvailable(product.getQuantity() > 0)
-                    .setQuantity(product.getQuantity())
-
                     .setId(product.getId())
                     .setName(product.getName())
+                    .setAvailable(product.getQuantity() > 0)
+                    .setQuantity(product.getQuantity())
                     .setPrice(product.getPrice().toString())
                     .setSale(product.getSale())
                     .build();
