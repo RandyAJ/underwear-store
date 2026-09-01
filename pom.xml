@@ -5,6 +5,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <java.version>21</java.version>
+    </properties>
+
     <groupId>com.underwearstore</groupId>
     <artifactId>underwear-store</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -15,6 +19,7 @@
         <module>order-service</module>
         <module>inventory-service</module>
         <module>notification-service</module>
+        <module>grpc-contracts</module>
     </modules>
 
 </project>
