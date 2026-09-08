@@ -33,9 +33,8 @@ public class OrderService {
         );
     }
 
-    public Order create(ProductResponse productResponse){
-        BigDecimal price = new BigDecimal(productResponse.getPrice());
-        BigDecimal totalPrice = price.multiply(
+    public void create(ProductResponse productResponse){
+        BigDecimal totalPrice = new BigDecimal(productResponse.getPrice()).multiply(
                 BigDecimal.valueOf(productResponse.getQuantity())
         );
 
@@ -44,6 +43,6 @@ public class OrderService {
                 new BigDecimal(productResponse.getPrice()), totalPrice, productResponse.getQuantity()
         );
 
-        return orderRepository.save(order);
+        orderRepository.save(order);
     }
 }
