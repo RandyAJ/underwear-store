@@ -1,7 +1,7 @@
 package com.underwearstore.orderservice.service;
 
-import com.underwearstore.inventoryservice.grpc.ProductRequest;
-import com.underwearstore.inventoryservice.grpc.ProductResponse;
+import com.underwearstore.grpc.ProductRequest;
+import com.underwearstore.grpc.ProductResponse;
 import com.underwearstore.orderservice.dto.ProductResponseDto;
 import com.underwearstore.orderservice.entity.Order;
 import com.underwearstore.orderservice.grpc.InventoryGrpcClient;
@@ -19,12 +19,16 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public ProductResponseDto checkAvailability(Long id){
-        ProductRequest request = ProductRequest.newBuilder().setId(id).build();
+    public ProductResponseDto checkAvailability(Long id, Integer quantity){
+        ProductRequest request = ProductRequest.newBuilder()
+                .setId(id)
+                .setQuantity(quantity)
+                .build();
+
         ProductResponse response = inventoryGrpcClient.checkAvailability(request);
 
         if(response.getQuantity() > 1){
-            create(response);
+            create(response); // каждая проверка доступности влечет создание записи в бд = плохо. добавить входной аргумент количества заказываемого товара и переделать дальнейшую логику ЗАКАЗА.
         }
 
         return new ProductResponseDto(

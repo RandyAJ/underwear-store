@@ -6,6 +6,7 @@ option java_multiple_files = true;
 // запрос
 message ProductRequest {
     int64 id = 1; // ID Product для проверки в БД
+    int32 quantity = 2; // количество товара
 }
 
 // ответ

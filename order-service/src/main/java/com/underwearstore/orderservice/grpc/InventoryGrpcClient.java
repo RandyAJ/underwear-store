@@ -1,9 +1,9 @@
 package com.underwearstore.orderservice.grpc;
 
 import org.springframework.stereotype.Service;
-import com.underwearstore.inventoryservice.grpc.InventoryServiceGrpc;
-import com.underwearstore.inventoryservice.grpc.ProductRequest;
-import com.underwearstore.inventoryservice.grpc.ProductResponse;
+import com.underwearstore.grpc.InventoryServiceGrpc;
+import com.underwearstore.grpc.ProductRequest;
+import com.underwearstore.grpc.ProductResponse;
 
 @Service
 public class InventoryGrpcClient {

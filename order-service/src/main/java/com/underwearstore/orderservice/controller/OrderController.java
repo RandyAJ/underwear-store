@@ -16,7 +16,7 @@ public class OrderController {
 
     // тест gRPC
     @GetMapping("/{id}")
-    public ProductResponseDto checkAvailability(@PathVariable Long id){
-        return orderService.checkAvailability(id);
+    public ProductResponseDto checkAvailability(@PathVariable Long id, Integer quantity){
+        return orderService.checkAvailability(id, quantity);
     }
 }

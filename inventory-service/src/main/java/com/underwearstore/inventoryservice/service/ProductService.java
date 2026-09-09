@@ -43,7 +43,7 @@ public class ProductService {
         }
     }
 
-    public Product checkAvailability(Long id){
+    public Product checkAvailability(Long id, Integer quantity){ //
         Optional<Product> product = productRepository.findById(id);
 
         if(product.isEmpty()){

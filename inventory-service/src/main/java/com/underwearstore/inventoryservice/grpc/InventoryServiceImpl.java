@@ -1,9 +1,12 @@
 package com.underwearstore.inventoryservice.grpc;
 
+import com.underwearstore.grpc.ProductRequest;
+import com.underwearstore.grpc.ProductResponse;
 import com.underwearstore.inventoryservice.entity.Product;
 import com.underwearstore.inventoryservice.service.ProductService;
 import io.grpc.stub.StreamObserver;
 import org.springframework.grpc.server.service.GrpcService;
+import com.underwearstore.grpc.InventoryServiceGrpc;
 
 @GrpcService
 public class InventoryServiceImpl extends InventoryServiceGrpc.InventoryServiceImplBase {
@@ -23,8 +26,7 @@ public class InventoryServiceImpl extends InventoryServiceGrpc.InventoryServiceI
     @Override
     public void checkAvailability(ProductRequest request, StreamObserver<ProductResponse> responseObserver) {
         try {
-            Product product = productService.checkAvailability(request.getId());
-
+            Product product = productService.checkAvailability(request.getId(), request.getQuantity());
             ProductResponse response = ProductResponse.newBuilder()
                     .setId(product.getId())
                     .setName(product.getName())

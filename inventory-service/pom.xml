@@ -67,10 +67,10 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>io.github.ascopes</groupId>
-				<artifactId>protobuf-maven-plugin</artifactId> <!-- автоматическая генерация джава-классов -->
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>io.github.ascopes</groupId>-->
+<!--				<artifactId>protobuf-maven-plugin</artifactId> &lt;!&ndash; автоматическая генерация джава-классов &ndash;&gt;-->
+<!--			</plugin>-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
