@@ -19,17 +19,15 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public ProductResponseDto checkAvailability(Long id, Integer quantity){
+    public ProductResponseDto checkAvailability(Long id, Integer quantityOrdered){
         ProductRequest request = ProductRequest.newBuilder()
                 .setId(id)
-                .setQuantity(quantity)
+                .setQuantity(quantityOrdered)
                 .build();
 
         ProductResponse response = inventoryGrpcClient.checkAvailability(request);
 
-        if(response.getQuantity() > 1){
-            create(response); // каждая проверка доступности влечет создание записи в бд = плохо. добавить входной аргумент количества заказываемого товара и переделать дальнейшую логику ЗАКАЗА.
-        }
+        create(response);
 
         return new ProductResponseDto(
                 response.getId(), response.getName(), response.getAvailable(), response.getQuantity(),
@@ -38,8 +36,10 @@ public class OrderService {
     }
 
     public void create(ProductResponse productResponse){
-        BigDecimal totalPrice = new BigDecimal(productResponse.getPrice()).multiply(
-                BigDecimal.valueOf(productResponse.getQuantity())
+        BigDecimal totalPrice = new BigDecimal(
+                productResponse.getPrice()).multiply(
+                    BigDecimal.valueOf(productResponse.getQuantity()
+                )
         );
 
         Order order = new Order(

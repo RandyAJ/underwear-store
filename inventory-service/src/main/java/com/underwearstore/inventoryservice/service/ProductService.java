@@ -43,13 +43,23 @@ public class ProductService {
         }
     }
 
-    public Product checkAvailability(Long id, Integer quantity){ //
+    public Product checkAvailability(Long id, Integer quantityOrdered){ //
         Optional<Product> product = productRepository.findById(id);
 
         if(product.isEmpty()){
             System.out.printf("Product with ID %s not found ~ %n", id);
 
             throw new RuntimeException(String.format("Product with ID %s not found ~ %n", id));
+        }
+
+        if(product.get().getQuantity() < 1){
+            String message = "Товар отсутствует для создания заказа. Id продукта: " + id + " его количество: 0";
+            throw new RuntimeException(message);
+        }
+
+        if(product.get().getQuantity() < quantityOrdered){
+            String message = "Заказываемое количетсво превышает количество товара на складе. Id продукта: " + id + " и заказываемое количество: " + quantityOrdered;
+            throw new RuntimeException(message);
         }
 
         return product.get();
