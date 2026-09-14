@@ -1,6 +1,6 @@
 package com.underwearstore.orderservice.config;
 
-import com.underwearstore.inventoryservice.grpc.InventoryServiceGrpc;
+import com.underwearstore.grpc.InventoryServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.context.annotation.Bean;

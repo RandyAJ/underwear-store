@@ -29,6 +29,6 @@ public class Order {
     private BigDecimal totalPrice;
 
     @NotNull
-    private Integer quantity;
+    private Integer quantityOrdered;
 
 }

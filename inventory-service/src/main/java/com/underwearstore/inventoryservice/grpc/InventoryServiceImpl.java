@@ -26,7 +26,7 @@ public class InventoryServiceImpl extends InventoryServiceGrpc.InventoryServiceI
     @Override
     public void checkAvailability(ProductRequest request, StreamObserver<ProductResponse> responseObserver) {
         try {
-            Product product = productService.checkAvailability(request.getId(), request.getQuantity());
+            Product product = productService.checkAvailability(request.getId(), request.getQuantityOrdered());
             ProductResponse response = ProductResponse.newBuilder()
                     .setId(product.getId())
                     .setName(product.getName())

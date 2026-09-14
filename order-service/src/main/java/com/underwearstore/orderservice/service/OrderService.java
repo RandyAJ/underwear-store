@@ -2,7 +2,6 @@ package com.underwearstore.orderservice.service;
 
 import com.underwearstore.grpc.ProductRequest;
 import com.underwearstore.grpc.ProductResponse;
-import com.underwearstore.orderservice.dto.ProductResponseDto;
 import com.underwearstore.orderservice.entity.Order;
 import com.underwearstore.orderservice.grpc.InventoryGrpcClient;
 import org.springframework.stereotype.Service;
@@ -19,23 +18,18 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public ProductResponseDto checkAvailability(Long id, Integer quantityOrdered){
+    public Order checkAvailability(Long id, Integer quantityOrdered){
         ProductRequest request = ProductRequest.newBuilder()
                 .setId(id)
-                .setQuantity(quantityOrdered)
+                .setQuantityOrdered(quantityOrdered)
                 .build();
 
         ProductResponse response = inventoryGrpcClient.checkAvailability(request);
 
-        create(response);
-
-        return new ProductResponseDto(
-                response.getId(), response.getName(), response.getAvailable(), response.getQuantity(),
-                new BigDecimal(response.getPrice()), response.getSale()
-        );
+        return create(response, quantityOrdered);
     }
 
-    public void create(ProductResponse productResponse){
+    public Order create(ProductResponse productResponse, Integer quantityOrdered){
         BigDecimal totalPrice = new BigDecimal(
                 productResponse.getPrice()).multiply(
                     BigDecimal.valueOf(productResponse.getQuantity()
@@ -44,9 +38,11 @@ public class OrderService {
 
         Order order = new Order(
                 null, productResponse.getId(), productResponse.getName(),
-                new BigDecimal(productResponse.getPrice()), totalPrice, productResponse.getQuantity()
+                new BigDecimal(productResponse.getPrice()), totalPrice, quantityOrdered
         );
 
         orderRepository.save(order);
+
+        return order;
     }
 }

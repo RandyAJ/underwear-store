@@ -1,6 +1,6 @@
 package com.underwearstore.orderservice.controller;
 
-import com.underwearstore.orderservice.dto.ProductResponseDto;
+import com.underwearstore.orderservice.entity.Order;
 import com.underwearstore.orderservice.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +13,8 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/{id}")
-    public ProductResponseDto checkAvailability(@PathVariable Long id, Integer quantityOrdered){
+    @GetMapping
+    public Order checkAvailability(@RequestParam Long id, @RequestParam Integer quantityOrdered){
         return orderService.checkAvailability(id, quantityOrdered);
     }
 }

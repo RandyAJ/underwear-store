@@ -47,9 +47,8 @@ public class ProductService {
         Optional<Product> product = productRepository.findById(id);
 
         if(product.isEmpty()){
-            System.out.printf("Product with ID %s not found ~ %n", id);
-
-            throw new RuntimeException(String.format("Product with ID %s not found ~ %n", id));
+            String message = "Товар отсутствует, Id: " + id;
+            throw new RuntimeException(message);
         }
 
         if(product.get().getQuantity() < 1){
