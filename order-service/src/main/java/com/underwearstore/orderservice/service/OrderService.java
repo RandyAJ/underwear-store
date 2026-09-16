@@ -4,6 +4,7 @@ import com.underwearstore.grpc.ProductRequest;
 import com.underwearstore.grpc.ProductResponse;
 import com.underwearstore.orderservice.entity.Order;
 import com.underwearstore.orderservice.grpc.InventoryGrpcClient;
+
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import com.underwearstore.orderservice.repository.OrderRepository;
@@ -24,12 +25,19 @@ public class OrderService {
                 .setQuantityOrdered(quantityOrdered)
                 .build();
 
-        ProductResponse response = inventoryGrpcClient.checkAvailability(request);
+        ProductResponse response;
+        try {
+            response = inventoryGrpcClient.checkAvailability(request);
+        } catch (RuntimeException e){
+            e.printStackTrace();
 
-        return create(response, quantityOrdered);
+            response = null;
+        }
+
+        return (response != null) ? create(response, quantityOrdered) : null;
     }
 
-    public Order create(ProductResponse productResponse, Integer quantityOrdered){
+    public Order create(ProductResponse productResponse, Integer quantityOrdered) {
         BigDecimal totalPrice = new BigDecimal(
                 productResponse.getPrice()).multiply(
                     BigDecimal.valueOf(productResponse.getQuantity()
@@ -41,8 +49,6 @@ public class OrderService {
                 new BigDecimal(productResponse.getPrice()), totalPrice, quantityOrdered
         );
 
-        orderRepository.save(order);
-
-        return order;
+        return orderRepository.save(order);
     }
 }

@@ -1,6 +1,8 @@
 package com.underwearstore.inventoryservice.service;
 
 import com.underwearstore.inventoryservice.entity.Product;
+import com.underwearstore.inventoryservice.exception.InvalidProductDataException;
+import com.underwearstore.inventoryservice.exception.ProductOutOfStockException;
 import com.underwearstore.inventoryservice.repository.ProductRepository;
 
 import org.springframework.stereotype.Service;
@@ -43,24 +45,23 @@ public class ProductService {
         }
     }
 
-    public Product checkAvailability(Long id, Integer quantityOrdered){ //
-        Optional<Product> product = productRepository.findById(id);
+    public Product checkAvailability(Long id, Integer quantityOrdered) {
+        Optional<Product> productOpt = productRepository.findById(id);
 
-        if(product.isEmpty()){
-            String message = "Товар отсутствует, Id: " + id;
-            throw new RuntimeException(message);
+        if(productOpt.isEmpty()){
+            throw new InvalidProductDataException("Товар отсутствует, Id: " + id, id);
         }
 
-        if(product.get().getQuantity() < 1){
-            String message = "Товар отсутствует для создания заказа. Id продукта: " + id + " его количество: 0";
-            throw new RuntimeException(message);
+        Product product = productOpt.get();
+        Integer quantity = product.getQuantity();
+        if(quantity == 0){
+            throw new ProductOutOfStockException("Товар отсутствует для создания заказа. Id продукта: " + id + " его количество: " + quantity, id, quantity);
         }
 
-        if(product.get().getQuantity() < quantityOrdered){
-            String message = "Заказываемое количетсво превышает количество товара на складе. Id продукта: " + id + " и заказываемое количество: " + quantityOrdered;
-            throw new RuntimeException(message);
+        if(quantity < quantityOrdered){
+            throw new ProductOutOfStockException("Заказываемое количество превышает количество товара на складе. Id продукта: " + id + " и заказываемое количество: " + quantityOrdered, id, quantity);
         }
 
-        return product.get();
+        return product;
     }
 }

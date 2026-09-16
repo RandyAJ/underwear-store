@@ -40,8 +40,10 @@ public class InventoryServiceImpl extends InventoryServiceGrpc.InventoryServiceI
             responseObserver.onCompleted();
 
         } catch (RuntimeException e){
+            e.printStackTrace();
+
             responseObserver.onError(
-                    io.grpc.Status.NOT_FOUND
+                    io.grpc.Status.CANCELLED
                         .withDescription(e.getMessage())
                         .asRuntimeException()
 
