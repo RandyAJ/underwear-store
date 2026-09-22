@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 // Запусти json-server отдельно, например:
 // npx json-server --watch db.json --port 3000
 // db.json должен содержать { "products": [] }
-const API_URL = "http://localhost:3000/products";
+const API_URL = "http://localhost:8081/api/products";
 
 interface Product {
   id: number;
@@ -48,6 +48,8 @@ export default function App() {
     const newProduct = {
       name: name.trim(),
       price: Number(price),
+      quantity: 5,
+      sale: 10
     };
 
     setLoading(true);
